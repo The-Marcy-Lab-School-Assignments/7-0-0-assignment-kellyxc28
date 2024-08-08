@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// useState is imported at the top
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+// component names use PascalCase
+const CounterDisplay = ({ count }) => {
+  return <p>{count}</p>
+}
 
+const CounterButtons = ({ increment, decrement }) => {
+  // props are destructured ^          ^
+  
+  // multiple returned components are wrapped with () and <> </>
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
     </>
   )
 }
 
-export default App
+// App is exported (default or named is fine)
+const App = () => {
+  // state is "lifted up" and passed down with props
+  const [count, setCount] = useState(0);
+
+  // helper functions can be passed down instead of the setter function itself
+  const increment = () => { setCount(count + 1) }
+  const decrement = () => { setCount(count - 1) }
+
+  return (
+    <>
+      <CounterDisplay count={count} />
+      <CounterButtons increment={increment} decrement={decrement} />
+    </>
+  )
+}
+
+export default App;
